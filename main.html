@@ -1,0 +1,380 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<!--http://www.aharrisbooks.net/h5g/h5g_5/tplt.html-->
+<!--*************************RESOURCES************************************->
+<!--  FREE SOUNDS:  http://rpg.hamsterrepublic.com/ohrrpgce/About        -->
+<!--     TEMPLATE:  http://www.aharrisbooks.net/h5g/h5g_5/tplt.html      -->
+<!--DOCUMENTATION:  http://www.aharrisbooks.net/h5g/documentation.html   -->
+<!--          LIB:  http://www.aharrisbooks.net/h5g/h5g_5/simpleGame.js  -->
+<head>
+    <meta charset="UTF-8">
+    <title>Operation Space Search and Rescue</title>
+    <!--eta content='width=device-width, initial-scale=1.0, maximum-scale=1.00, user-scalable=0' name='viewport' /-->
+    <link href='http://fonts.googleapis.com/css?family=Nova+Square' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src = "./js/simple_game.js"></script>
+    <script type="text/javascript" src = "./js/simple_game_extension.js"></script>
+    <script type="text/javascript" src = "./js/maze_game.js"></script>
+    <script type="text/javascript">
+
+        //TODO: Handle orientation changes on teh screen
+        //take a look at this link it might hel[
+        //https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
+        //TODO: make big celebration screen when reaching orelia
+        //TODO: Provide a better menu screen than currently
+        //TODO: add bonus round level
+        //TODO: add shoot em up level
+        //TODO: centralize all settings to one class
+        //TODO: change fonts for start menu
+        //TODO: integrate leader board
+        //TODO: Fix the issue with controls on android
+        //TODO: fix screen sizing issues on phones
+        //TODO: Change music for second level
+        //
+        //http://stackoverflow.com/questions/7773865/how-to-disable-web-page-zooming-scaling-on-android
+        //to view a way to maintain and avoid zooming in
+        var scene;
+        var theShip;
+        var theBackground;
+        var levelTimer;
+        var getReadySplash;
+
+        var explosionSound;
+        var bonusSound;
+        var landedSound;
+        var thrustSound;
+        var bgMusic;
+
+        var paused = false;
+        var readyToSpawn = false;
+
+
+        var FONT_FAMILY= "Nova Square";
+        var FONT_SIZE = 20; //in pixel size
+        var HEADER_COLOR = "#7777bb";
+        var NORMAL_COLOR = "#DDDDDD";
+        var HIGHLIGHT_COLOR = "#DDEEEE";
+        var FONT_COLOR = NORMAL_COLOR;
+        var SCREEN_COLOR = "#334455";
+        var MAX_WALLS = 15; //must be divisible by 3
+        var VERTICAL_WALL_SPACING = 5;
+        var LEVEL = 1;
+
+
+        var accel;
+        var joy;
+        var orelia; //planetorelia
+        var nextPlanetDistance = 200;
+        var debugCounter = 0;
+        var mileage = 0;
+        var lastRecordedMileage = 0;
+        var wallManager;
+        var planetReachedTimer;
+        var enteredOrbit;
+
+        var livesRescued = 0;
+        var window_orientation = 90;
+        var smoke;
+
+
+        window.addEventListener("orientationchange", function() {
+
+            window_orientation = window.orientation;
+
+            var newWidth = window.innerWidth-50;
+            var newHeight = window.innerHeight-50;
+
+            if(newWidth > 800)
+                newWidth = 800;
+            if(newHeight > 600)
+                newHeight = 600;
+
+            if(scene){
+                scene.setSize(newWidth, newHeight);
+            }
+
+        }, false);
+
+        function advanceToNextLevel(){
+            //var colors = ["#111111","#dddddd","#ee9999", SCREEN_COLOR];
+            LEVEL++;
+            VERTICAL_WALL_SPACING--;
+            if(VERTICAL_WALL_SPACING < 1)
+            {
+                VERTICAL_WALL_SPACING = 1;
+            }
+            MAX_WALLS += 3;
+            wallManager.addWalls(3);
+            //TODO: change music
+            //scene.setBG(colors[LEVEL%4]);
+        }
+
+
+        function getLastRecordedMileage(){
+            return lastRecordedMileage;
+        }
+
+        function resetLevel(resetScore){
+            getReadySplash.reset();
+            levelTimer.reset();
+            if(resetScore === true)
+            {
+                mileage = 0;
+            }
+            else{
+                advanceToNextLevel();
+            }
+
+
+            nextPlanetDistance = 1000;
+            wallManager.resetWalls();
+            orelia.reset();
+            theShip.init();
+            //TODO: start crash scene
+            enteredOrbit = false;
+            livesRescued=0;
+            astronaut.reset();
+            smoke.reset();
+            bgMusic.stop();
+        }
+
+        function init(){
+
+
+            //virtKeys = true;
+            scene = new Scene();
+            scene.setBG(SCREEN_COLOR);
+
+            smoke = new ParticleEngine(scene, "./img/Smoke10.png", 50, 12);
+
+            //scene.setSize(800, 800);
+            wallManager = new WallManager(scene);
+            astronaut = new BonusItem(scene, './img/astronaut.png');
+
+            if(scene.touchable){
+                accel = new Accel();
+                joy = new Joy();
+            }
+
+            theBackground =  new Background(scene);
+
+            explosionSound = new Sound("./sound/explosion_02.ogg");
+            bonusSound = new Sound("./sound/bonus_01.mp3");
+            landedSound = new Sound("./sound/bonus_02.wav");
+            thrustSound = new Sound("./sound/thrust.wav");
+            bgMusic = new Sound("./sound/Kurevy_192001419_soundcloud.m4a");
+            //explosionSound.showControls();
+
+
+            getReadySplash = new GetReadySplash(scene, joy);
+            theShip = new SpaceShip(scene, accel, joy, thrustSound);
+            orelia = new Planet(scene, "orelia.png");
+
+            levelTimer = new Timer();
+            planetReachedTimer = new Timer();
+
+            scene.start();
+            getReadySplash.init();
+            theShip.init();
+            theBackground.init();
+            orelia.init();
+            astronaut.init();
+
+            wallManager.init(scene);
+            smoke.init();
+
+        } // end init
+
+        function inOreliasOrbit(){
+            return orelia.distanceTo(theShip) < theShip.cWidth/2 && orelia.y > 0;
+        }
+
+
+        function update(){
+            console.log("Updating FZJ");
+            scene.clear();
+
+            //explosionSound.showControls();
+            theBackground.update();
+
+
+            if(inPlay()){
+                bgMusic.play();
+                //explosionSound.showControls();
+                theShip.checkKeys();
+                wallManager.checkWallsForBounds();
+
+
+                theShip.checkGravity();
+                astronaut.checkGravity();
+
+                if(theShip.isPlaying() && inOreliasOrbit()){
+
+                    planetReachedTimer.reset();
+                    theShip.turnOffBoundsChecking();
+                    theShip.setMoveAngle( orelia.angleTo(theShip) );
+                    theShip.setImgAngle( orelia.angleTo(theShip) );
+                    theShip.setSpeed(10);
+
+                    if(orelia.collidesWith(theShip)){
+                        landedSound.play();
+                        resetLevel(false);
+                    }
+
+                    0
+                }else{
+
+                    if(theShip.isPlaying() && astronaut.hasBeenCollected() == false && theShip.collidesWith(astronaut)){
+
+                        astronaut.collectIt();
+                        bonusSound.play();
+                        livesRescued++;
+                        //astronaut.setImage("./img/image_transparent.png");
+
+
+                    }
+                    if(theShip.isPlaying()){
+                        wallManager.collidesWith(theShip, function(){
+                            theShip.beginCrash();
+                            wallManager.rattle();
+                            theShip.rattle();
+                            theBackground.rattle();
+                            smoke.launch(theShip.x, theShip.y, 5);
+                            playCrashSound();
+                            bgMusic.stop();
+                        });
+                    }
+
+                    if(astronaut.hasBeenCollected()){
+                        theBackground.writeText(FONT_FAMILY, 20, FONT_COLOR, "RESCUED!", astronaut.x, astronaut.y);
+                    }
+
+                    wallManager.update();
+                }
+
+
+                //The ship does not die right away after it crashes
+                //instead it has to go through the process
+                if(theShip.isDead()){
+                    resetLevel(true);
+                }
+
+
+                //update all the sprites
+                //update is actually the drawing
+                //unlike other systesm that use draw for drawing
+                //and update for updating position
+                //In this case update is for drawing to the screen
+                orelia.update();
+                if(astronaut.getSpeed() > 0){
+                    astronaut.update();
+                }
+
+                theShip.update();
+                theShip.updateThruster();
+                smoke.update(theShip, 0, 0);
+                updateScore();
+
+            }
+            else{
+                getReadySplash.update();
+                showCountDown();
+            }
+        }
+
+
+
+        function spawnOrelia (){
+            debugCounter = 2;
+            //theBackground.writeText"Arial", "30", "#ff0000", "Orelia Spawning", 10, 100);
+            orelia.spawn();
+            debugCounter = 3;
+        }
+
+        function spawnAstronaut(){
+            debugCounter = 2;
+            //theBackground.writeText"Arial", "30", "#ff0000", "Orelia Spawning", 10, 100);
+            astronaut.spawn()();
+            debugCounter = 3;
+        }
+
+        function updateScore(){
+
+            var fontFamily = "Courier New";
+            var fontSize = "20";
+            var message = "Kilometers (1000's): " + (Math.round(levelTimer.getTimeElapsed() * 10)).toString();
+            mileage = Math.round(levelTimer.getTimeElapsed() * 10);
+
+            //avoid getting mileage after it has been reset
+            if(mileage != 0)
+                lastRecordedMileage = mileage;
+
+            //to keep astronaut from spawning back to back
+            if(mileage % 99 == 0){
+                readyToSpawn = true;
+            }
+
+
+            if(mileage > 200 && mileage % 200 == 0 && readyToSpawn)
+            {
+                spawnAstronaut();
+                readyToSpawn = false;
+            }
+
+            if(mileage > nextPlanetDistance){
+
+                debugCounter = 1;
+                nextPlanetDistance += 1000; //to prevent back to back spawn
+                spawnOrelia();
+            }
+
+            theBackground.writeText(FONT_FAMILY, FONT_SIZE, FONT_COLOR, message, 10, 60);
+            theBackground.writeText(FONT_FAMILY, FONT_SIZE, FONT_COLOR, "Level: " + LEVEL.toString(), 10, 100);
+            theBackground.writeText(FONT_FAMILY, FONT_SIZE, FONT_COLOR, "Rescued: " + livesRescued.toString(), 10, 140);
+
+        }
+
+        function getAY(){
+            if(accel){
+                return accel.getAY();
+            }
+
+            return 0;
+        }
+
+        function getAX(){
+            if(accel){
+                return accel.getAX();
+            }
+            return 0;
+        }
+
+        function getAZ(){
+            if(accel){
+                return accel.getAZ();
+            }
+
+            return 0;
+        }
+
+
+        function playCrashSound(){
+            explosionSound.play();
+        }
+
+        function inPlay(){
+
+            return getReadySplash.inPlay() && 90 == Math.abs(window_orientation);
+        }
+
+        function showCountDown(){
+            var timeElapsed = levelTimer.getTimeElapsed();
+            var message = (4 - Math.round(levelTimer.getTimeElapsed())).toString();
+
+            theBackground.writeText(FONT_FAMILY, FONT_SIZE, FONT_COLOR, message, 350, 200);
+        }
+    </script>
+</head>
+<body onload = "init()">
+</body>
+</html>
