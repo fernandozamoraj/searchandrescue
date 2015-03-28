@@ -284,6 +284,10 @@ function Wall(scene){
  *
  * WallManager
  *
+ * Originally it was intended to have walls and the later they were
+ * they simply became the meteor obstacles but I just haven't gotten
+ * around to renaming them.
+ *
  *******************************************************************/
 function WallManager(scene){
 
@@ -306,6 +310,9 @@ function WallManager(scene){
         this.resetWalls();
     };
 
+    //This method makes all the walls move left and then right and then left...
+    //creating a rattle effect.
+    //THe rattle effect gives a more shocking effect when the ship crashes
     this.rattle = function(){
         for(i=0;i<MAX_WALLS;i++){
             walls[i].rattle();
@@ -339,6 +346,8 @@ function WallManager(scene){
         this.spaceOutWalls();
     };
 
+    //This method is avid the walls touching each other horizontally
+    //this way there is alway some minimun space in between the walls.
     this.spaceOutWalls = function(){
 
 
@@ -411,10 +420,7 @@ function SpaceShip(scene, accel, j, thrustSound){
 
     var accelerometer = accel;
     var joystickVirtual = j;
-
-    var SHIP_IMAGE = "./img/space_ship5a_still.png";
-    var SHIP_THRUSTING_IMAGE = "./img/space_ship5a1_thrusting.png";
-    var tempSpaceShip = new EnhancedSprite(scene, SHIP_IMAGE, 50, 60);
+    var tempSpaceShip = new EnhancedSprite(scene, SHIP_CENTER, 70, 60);
     var thrusterSmoke = new ParticleEngine(scene, "./img/Smoke10.png", 10, 5);
     var START_Y_POSITON  = 500;
     var MIN_SPEED = 1;
@@ -565,8 +571,13 @@ function SpaceShip(scene, accel, j, thrustSound){
             newDy = joystickVirtual.getDiffY();
         }
 
+        this.changeImage(SHIP_CENTER);
+
+
         if(keysDown[K_LEFT] || newDx > 0)
         {
+            this.changeImage(SHIP_LEFT);
+
             if(newDx > 0){
                 //need faster acceleration when using tilt as pposed to keys
                 this.addVector(270,1)
@@ -578,6 +589,7 @@ function SpaceShip(scene, accel, j, thrustSound){
         }
 
         if(keysDown[K_RIGHT] || newDx < 0){
+            this.changeImage(SHIP_RIGHT);
             if(newDx < 0)
                 this.addVector(90,1);
             else
@@ -597,7 +609,7 @@ function SpaceShip(scene, accel, j, thrustSound){
             //this.setMoveAngle(0);
 
             //this.setSpeed(MIN_SPEED*6);
-            this.changeImage(SHIP_THRUSTING_IMAGE);
+            this.changeImage(SHIP_THRUSTING);
 
             this.addVector(0, 2);
             thrustSound.play();
@@ -611,9 +623,7 @@ function SpaceShip(scene, accel, j, thrustSound){
             }
 
         }
-        else{
-            this.changeImage(SHIP_IMAGE);
-        }
+
 
         if(keysDown[K_DOWN] || newDy > 0){
             //handle events here
