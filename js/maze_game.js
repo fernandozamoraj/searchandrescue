@@ -4,6 +4,7 @@ var SPLASH_FONT_FAMILY = "Nova Square";
 
 
 
+
 /******************************************************************
 
  GetReadySplash class
@@ -434,6 +435,7 @@ function SpaceShip(scene, accel, j, thrustSound){
     var DEAD_STATE = 2;
     var thrusterTimer = 0;
     var THRUSTER_WAIT_FRAMES = 10;
+    var currentShipImage = SHIP_CENTER;
 
 
     crashSequenceTimer.start();
@@ -541,6 +543,8 @@ function SpaceShip(scene, accel, j, thrustSound){
         var LANDSCAPE_PRIMARY = 90;
         var LANDSCAPE_SECONDARY = -90;
         var PORTRAIT_PRIMARY = 0;
+        var tempShipImage = SHIP_CENTER;
+
 
         thrusterTimer--;
 
@@ -571,12 +575,12 @@ function SpaceShip(scene, accel, j, thrustSound){
             newDy = joystickVirtual.getDiffY();
         }
 
-        this.changeImage(SHIP_CENTER);
+        tempShipImage = SHIP_CENTER;
 
 
         if(keysDown[K_LEFT] || newDx > 0)
         {
-            this.changeImage(SHIP_LEFT);
+            tempShipImage = SHIP_LEFT;
 
             if(newDx > 0){
                 //need faster acceleration when using tilt as pposed to keys
@@ -589,7 +593,9 @@ function SpaceShip(scene, accel, j, thrustSound){
         }
 
         if(keysDown[K_RIGHT] || newDx < 0){
-            this.changeImage(SHIP_RIGHT);
+
+            tempShipImage = SHIP_RIGHT;
+
             if(newDx < 0)
                 this.addVector(90,1);
             else
@@ -609,7 +615,7 @@ function SpaceShip(scene, accel, j, thrustSound){
             //this.setMoveAngle(0);
 
             //this.setSpeed(MIN_SPEED*6);
-            this.changeImage(SHIP_THRUSTING);
+            tempShipImage = SHIP_THRUSTING;
 
             this.addVector(0, 2);
             thrustSound.play();
@@ -624,6 +630,15 @@ function SpaceShip(scene, accel, j, thrustSound){
 
         }
 
+        //only swap the image when necessary
+        //otherwise you can get performance issues
+        //such as flickering
+        if(!(tempShipImage == currentShipImage)){
+
+            this.changeImage(tempShipImage);
+        }
+
+        currentShipImage = tempShipImage;
 
         if(keysDown[K_DOWN] || newDy > 0){
             //handle events here
