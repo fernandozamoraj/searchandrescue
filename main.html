@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en-US" manifest="gameresouces.appcache">
+<html lang="en-US" manifest="gameresources.appcache">
 <!-- http://www.html5rocks.com/en/tutorials/appcache/beginner/   for info caching-->
 <!--http://www.aharrisbooks.net/h5g/h5g_5/tplt.html-->
 <!--*************************RESOURCES************************************->
@@ -60,10 +60,29 @@
         var MAX_WALLS = 15; //must be divisible by 3
         var VERTICAL_WALL_SPACING = 5;
         var LEVEL = 1;
+
+
+        //Image files
         var SHIP_CENTER = "./img/nasa_center.png";
         var SHIP_THRUSTING = "./img/nasa_center.png";
         var SHIP_LEFT = "./img/nasa_left.png";
         var SHIP_RIGHT = "./img/nasa_right.png";
+        var SMOKE_IMG = "./img/Smoke10.png";
+        var ASTRONAUT_IMG = "./img/astronaut.png";
+        var METEOR_01_IMG = "./img/meteor_b1.png";
+        var METEOR_02_IMG = "./img/meteor_b2.png";
+        var METEOR_03_IMG = "./img/meteor_b3.png";
+        var METEOR_04_IMG = "./img/meteor_b4.png";
+        var METEOR_05_IMG = "./img/meteor_b5.png";
+        var ORELIA_IMG = "./img/orelia.png";
+        var TRANSPARENT_IMG = "./img/image_transparent.png";
+
+        //sound files
+        var EXPLOSION_SOUND_FILE = "./sound/explosion_02.ogg";
+        var BONUS_SOUND_FILE = "./sound/bonus_01.mp3";
+        var LANDED_SOUND_FILE = "./sound/bonus_02.wav";
+        var THRUST_SOUND_FILE = "./sound/thrust.wav";
+        var BACKGROUND_MUSIC_01 = "./sound/Kurevy_192001419_soundcloud.m4a";
 
 
         var accel;
@@ -150,11 +169,11 @@
             scene = new Scene();
             scene.setBG(SCREEN_COLOR);
 
-            smoke = new ParticleEngine(scene, "./img/Smoke10.png", 50, 12);
+            smoke = new ParticleEngine(scene, SMOKE_IMG, 50, 12);
 
             //scene.setSize(800, 800);
             wallManager = new WallManager(scene);
-            astronaut = new BonusItem(scene, './img/astronaut.png');
+            astronaut = new BonusItem(scene, ASTRONAUT_IMG);
 
             if(scene.touchable){
                 accel = new Accel();
@@ -163,17 +182,17 @@
 
             theBackground =  new Background(scene);
 
-            explosionSound = new Sound("./sound/explosion_02.ogg");
-            bonusSound = new Sound("./sound/bonus_01.mp3");
-            landedSound = new Sound("./sound/bonus_02.wav");
-            thrustSound = new Sound("./sound/thrust.wav");
-            bgMusic = new Sound("./sound/Kurevy_192001419_soundcloud.m4a");
+            explosionSound = new Sound(EXPLOSION_SOUND_FILE);
+            bonusSound = new Sound(BONUS_SOUND_FILE);
+            landedSound = new Sound(LANDED_SOUND_FILE);
+            thrustSound = new Sound(THRUST_SOUND_FILE);
+            bgMusic = new Sound(BACKGROUND_MUSIC_01);
             //explosionSound.showControls();
 
 
             getReadySplash = new GetReadySplash(scene, joy);
             theShip = new SpaceShip(scene, accel, joy, thrustSound);
-            orelia = new Planet(scene, "orelia.png");
+            orelia = new Planet(scene, ORELIA_IMG);
 
             levelTimer = new Timer();
             planetReachedTimer = new Timer();
