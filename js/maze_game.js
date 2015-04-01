@@ -13,7 +13,7 @@ var SPLASH_FONT_FAMILY = "Nova Square";
  ******************************************************************/
 function GetReadySplash(scene, virtualJoystick){
 
-    var tempSplash = new EnhancedSprite(scene, "./img/notepad.png", 800, 300);
+    var tempSplash = new EnhancedSprite(scene, NOTEPAD_IMG, 800, 300);
     var isInPlay = false;
 
     tempSplash.init = function(){

@@ -1,9 +1,9 @@
 CACHE MANIFEST
+
 ./js/maze_game.js
 ./js/simple_game.js
 ./js/simple_game_extension.js
 
-http://fonts.googleapis.com/css?family=Nova+Square'
 
 main.html
 
@@ -20,6 +20,7 @@ main.html
 ./img/meteor_b5.png
 ./img/orelia.png
 ./img/image_transparent.png
+./img/notepad.png
 
 ./sound/explosion_02.ogg
 ./sound/bonus_01.mp3
