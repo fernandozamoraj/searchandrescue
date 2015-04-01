@@ -544,7 +544,7 @@ function SpaceShip(scene, accel, j, thrustSound){
         var LANDSCAPE_SECONDARY = -90;
         var PORTRAIT_PRIMARY = 0;
         var tempShipImage = SHIP_CENTER;
-        var TILT_THRESHOLD = 2;
+        var TILT_THRESHOLD = 1;
 
 
         thrusterTimer--;

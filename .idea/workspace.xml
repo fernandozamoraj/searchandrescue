@@ -69,8 +69,8 @@
       <file leaf-file-name="maze_game.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/maze_game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28481013" vertical-offset="8670" max-vertical-offset="9915">
-              <caret line="596" column="0" selection-start-line="596" selection-start-column="0" selection-end-line="596" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.3322785" vertical-offset="7875" max-vertical-offset="9915">
+              <caret line="546" column="31" selection-start-line="546" selection-start-column="31" selection-end-line="546" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -401,8 +401,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/maze_game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28481013" vertical-offset="8670" max-vertical-offset="9915">
-          <caret line="596" column="0" selection-start-line="596" selection-start-column="0" selection-end-line="596" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.3322785" vertical-offset="7875" max-vertical-offset="9915">
+          <caret line="546" column="31" selection-start-line="546" selection-start-column="31" selection-end-line="546" selection-end-column="31" />
           <folding />
         </state>
       </provider>
