@@ -544,6 +544,7 @@ function SpaceShip(scene, accel, j, thrustSound){
         var LANDSCAPE_SECONDARY = -90;
         var PORTRAIT_PRIMARY = 0;
         var tempShipImage = SHIP_CENTER;
+        var TILT_THRESHOLD = 2;
 
 
         thrusterTimer--;
@@ -578,7 +579,7 @@ function SpaceShip(scene, accel, j, thrustSound){
         tempShipImage = SHIP_CENTER;
 
 
-        if(keysDown[K_LEFT] || newDx > 0)
+        if(keysDown[K_LEFT] || newDx > TILT_THRESHOLD)
         {
             tempShipImage = SHIP_LEFT;
 
@@ -592,7 +593,7 @@ function SpaceShip(scene, accel, j, thrustSound){
 
         }
 
-        if(keysDown[K_RIGHT] || newDx < 0){
+        if(keysDown[K_RIGHT] || newDx < -(TILT_THRESHOLD)){
 
             tempShipImage = SHIP_RIGHT;
 

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d16fb68-94b5-480d-b5de-36a75fddf8a5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gameresources.appcache" afterPath="$PROJECT_DIR$/gameresources.appcache" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.html" afterPath="$PROJECT_DIR$/main.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/maze_game.js" afterPath="$PROJECT_DIR$/js/maze_game.js" />
     </list>
     <ignored path="searchandrescue.iws" />
@@ -71,8 +69,8 @@
       <file leaf-file-name="maze_game.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/maze_game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="9.82595" vertical-offset="0" max-vertical-offset="9900">
-              <caret line="621" column="0" selection-start-line="621" selection-start-column="0" selection-end-line="621" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.28481013" vertical-offset="8670" max-vertical-offset="9915">
+              <caret line="596" column="0" selection-start-line="596" selection-start-column="0" selection-end-line="596" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -92,9 +90,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/js/maze_game.js" />
         <option value="$PROJECT_DIR$/gameresources.appcache" />
         <option value="$PROJECT_DIR$/main.html" />
+        <option value="$PROJECT_DIR$/js/maze_game.js" />
       </list>
     </option>
   </component>
@@ -403,8 +401,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/maze_game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="9.82595" vertical-offset="0" max-vertical-offset="9900">
-          <caret line="621" column="0" selection-start-line="621" selection-start-column="0" selection-end-line="621" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.28481013" vertical-offset="8670" max-vertical-offset="9915">
+          <caret line="596" column="0" selection-start-line="596" selection-start-column="0" selection-end-line="596" selection-end-column="0" />
           <folding />
         </state>
       </provider>
