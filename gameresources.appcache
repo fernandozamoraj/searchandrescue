@@ -1,29 +1,31 @@
 CACHE MANIFEST
 
-/js/maze_game.js
-/js/simple_game.js
-/js/simple_game_extension.js
+
+NETWORK:
 
 
-/img/nasa_center.png
-/img/nasa_center.png
-/img/nasa_left.png
-/img/nasa_right.png
-/img/Smoke10.png
-/img/astronaut.png
-/img/meteor_b1.png
-/img/meteor_b2.png
-/img/meteor_b3.png
-/img/meteor_b4.png
-/img/meteor_b5.png
-/img/orelia.png
-/img/image_transparent.png
-/img/notepad.png
+CACHE:
+main.html
+js/maze_game.js
+js/simple_game.js
+js/simple_game_extension.js
+img/nasa_center.png
+img/nasa_center.png
+img/nasa_left.png
+img/nasa_right.png
+img/Smoke10.png
+img/astronaut.png
+img/meteor_b1.png
+img/meteor_b2.png
+img/meteor_b3.png
+img/meteor_b4.png
+img/meteor_b5.png
+img/orelia.png
+img/image_transparent.png
+img/notepad.png
+sound/explosion_02.ogg
+sound/bonus_01.mp3
+sound/bonus_02.wav
+sound/thrust.wav
+sound/Kurevy_192001419_soundcloud.m4a
 
-/sound/explosion_02.ogg
-/sound/bonus_01.mp3
-/sound/bonus_02.wav
-/sound/thrust.wav
-/sound/Kurevy_192001419_soundcloud.m4a
-
-/main.html
