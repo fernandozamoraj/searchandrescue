@@ -95,7 +95,7 @@ Very important lesson about caching
         var NOTEPAD_IMG = "./img/notepad.png";
 
         //sound files
-        var EXPLOSION_SOUND_FILE = "./sound/explosion_01.wav";
+        var EXPLOSION_SOUND_FILE = "./sound/explosion_02.ogg";
         var BONUS_SOUND_FILE = "./sound/bonus_01.mp3";
         var LANDED_SOUND_FILE = "./sound/bonus_02.wav";
         var THRUST_SOUND_FILE = "./sound/thrust.wav";
@@ -176,7 +176,7 @@ Very important lesson about caching
             livesRescued=0;
             astronaut.reset();
             smoke.reset();
-            //bgMusic.stop();
+            bgMusic.stop();
         }
 
         function init(){
@@ -203,7 +203,7 @@ Very important lesson about caching
             bonusSound = new Sound(BONUS_SOUND_FILE);
             landedSound = new Sound(LANDED_SOUND_FILE);
             thrustSound = new Sound(THRUST_SOUND_FILE);
-            //bgMusic = new Sound(BACKGROUND_MUSIC_01);
+            bgMusic = new Sound(BACKGROUND_MUSIC_01);
             //explosionSound.showControls();
 
 
@@ -240,7 +240,7 @@ Very important lesson about caching
 
 
             if(inPlay()){
-                //bgMusic.play();
+                bgMusic.play();
                 //explosionSound.showControls();
                 theShip.checkKeys();
                 wallManager.checkWallsForBounds();
@@ -282,7 +282,7 @@ Very important lesson about caching
                             theBackground.rattle();
                             smoke.launch(theShip.x, theShip.y, 5);
                             playCrashSound();
-                           // bgMusic.stop();
+                            bgMusic.stop();
                         });
                     }
 
