@@ -9,6 +9,20 @@
 <!--     TEMPLATE:  http://www.aharrisbooks.net/h5g/h5g_5/tplt.html      -->
 <!--DOCUMENTATION:  http://www.aharrisbooks.net/h5g/documentation.html   -->
 <!--          LIB:  http://www.aharrisbooks.net/h5g/h5g_5/simpleGame.js  -->
+<!--
+
+Very important lesson about caching
+
+1. First I had to add the mime type to the web.config... I had to add a web config so that I could specify the mime type for cache manifest
+2. I then checked the mainfes file agains the validator http://manifest-validator.com/validate
+3. It was telling me that two files were invalid and to check the path... one file was the .m4a file and the other was an ogg file
+   both paths seemed correct. BUt I decided to simply remove those files from my game as a quick way to test this. That worked. I have to
+   find out why the ogg file was not being recognized. I have other ogg files and they work fine. SO we will see.  The m4a is the only file
+   of that type that I have. I need to investigate some more.
+   After making these changes my app seems to cache fine. I can reload it when offline.
+
+
+-->
 <head>
     <meta charset="UTF-8">
     <title>Operation Space Search and Rescue</title>
