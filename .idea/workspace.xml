@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d16fb68-94b5-480d-b5de-36a75fddf8a5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gameresources.appcache" afterPath="$PROJECT_DIR$/gameresources.appcache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.html" afterPath="$PROJECT_DIR$/main.html" />
     </list>
     <ignored path="searchandrescue.iws" />
@@ -40,8 +39,8 @@
       <file leaf-file-name="main.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.01577287" vertical-offset="0" max-vertical-offset="6165">
-              <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.04731861" vertical-offset="0" max-vertical-offset="6180">
+              <caret line="3" column="90" selection-start-line="3" selection-start-column="90" selection-end-line="3" selection-end-column="90" />
               <folding />
             </state>
           </provider>
@@ -402,8 +401,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.01577287" vertical-offset="0" max-vertical-offset="6165">
-          <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.04731861" vertical-offset="0" max-vertical-offset="6180">
+          <caret line="3" column="90" selection-start-line="3" selection-start-column="90" selection-end-line="3" selection-end-column="90" />
           <folding />
         </state>
       </provider>
