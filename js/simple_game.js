@@ -14,7 +14,7 @@
 var currentKey = null;
 var keysDown = new Array(256);
 var virtKeys = false;
-
+var turnOnSound;
 function Sprite(scene, imageFile, width, height){ 
     //core class for game engine
   this.scene = scene;
@@ -640,7 +640,18 @@ function Joy(){
   
   //define event handlers
   this.onTouchStart = function(event){
-    result = "touch: ";
+
+
+    //bug in iOS will not play sound unless it is first played
+    //during a user event such as touch start.
+    if(turnOnSound){
+        turnOnSound.play();
+        setTimeout( function(){
+            turnOnSound.stop();
+        }, 500);
+    }
+
+      result = "touch: ";
     touches = event.touches;
     startX = touches[0].screenX;
     startY = touches[0].screenY;
@@ -1306,3 +1317,5 @@ PLAY_ONCE = 1; PLAY_LOOP = 2;
 
 //Boundary action constants
 WRAP = 0; BOUNCE = 1; STOP = 3; DIE = 4; CONTINUE = 5;
+
+turnOnSound = new Sound('/sound/explosion_02.ogg');
