@@ -23,7 +23,7 @@ img/meteor_b5.png
 img/orelia.png
 img/image_transparent.png
 img/notepad.png
-sound/explosion_01.wav
+sound/explosion_02.ogg
 sound/bonus_01.mp3
 sound/bonus_02.wav
 sound/thrust.wav

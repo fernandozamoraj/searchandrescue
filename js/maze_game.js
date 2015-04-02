@@ -13,7 +13,7 @@ var SPLASH_FONT_FAMILY = "Nova Square";
  ******************************************************************/
 function GetReadySplash(scene, virtualJoystick){
 
-    var tempSplash = new EnhancedSprite(scene, "./img/notepad.png", 800, 300);
+    var tempSplash = new EnhancedSprite(scene, NOTEPAD_IMG, 800, 300);
     var isInPlay = false;
 
     tempSplash.init = function(){
@@ -79,7 +79,7 @@ function GetReadySplash(scene, virtualJoystick){
  ******************************************************************/
 function Background(scene){
 
-    var sprite = new EnhancedSprite(scene, "./img/image_transparent.png", 800, 600);
+    var sprite = new EnhancedSprite(scene, TRANSPARENT_IMG, 800, 600);
 
     sprite.init = function(){
         this.setX(this.cWidth/2 );
@@ -101,7 +101,7 @@ function Background(scene){
  ******************************************************************/
 function Planet(scene, planetFile){
 
-    var sprite = new EnhancedSprite(scene, "./img/orelia.png", 50, 50);
+    var sprite = new EnhancedSprite(scene, planetFile, 50, 50);
 
     sprite.init = function(){
 
@@ -142,7 +142,7 @@ function BonusItem(scene, imagePath){
     //dissapears
     sprite.collectIt = function(){
         collected = true;
-        this.changeImage("./img/image_transparent.png");
+        this.changeImage(TRANSPARENT_IMG);
     };
 
     sprite.hasBeenCollected = function(){
@@ -200,7 +200,7 @@ function BonusItem(scene, imagePath){
 function Wall(scene){
 
 
-    var wallNames = ["./img/meteor_b1.png","./img/meteor_b2.png","./img/meteor_b3.png","./img/meteor_b4.png","./img/meteor_b5.png"];
+    var wallNames = [METEOR_01_IMG, METEOR_02_IMG, METEOR_03_IMG, METEOR_04_IMG, METEOR_05_IMG];
     var imageIndex = Math.floor(Math.random()*5);
     var widths = [170, 170, 80, 80, 50];
     var tempWall = new EnhancedSprite(scene, wallNames[imageIndex], widths[imageIndex], WALL_HEIGHT);
@@ -422,7 +422,7 @@ function SpaceShip(scene, accel, j, thrustSound){
     var accelerometer = accel;
     var joystickVirtual = j;
     var tempSpaceShip = new EnhancedSprite(scene, SHIP_CENTER, 70, 60);
-    var thrusterSmoke = new ParticleEngine(scene, "./img/Smoke10.png", 10, 5);
+    var thrusterSmoke = new ParticleEngine(scene, SMOKE_IMG, 10, 5);
     var START_Y_POSITON  = 500;
     var MIN_SPEED = 1;
     var previousKeyLeft = false;
@@ -544,6 +544,7 @@ function SpaceShip(scene, accel, j, thrustSound){
         var LANDSCAPE_SECONDARY = -90;
         var PORTRAIT_PRIMARY = 0;
         var tempShipImage = SHIP_CENTER;
+        var TILT_THRESHOLD = 1;
 
 
         thrusterTimer--;
@@ -578,7 +579,7 @@ function SpaceShip(scene, accel, j, thrustSound){
         tempShipImage = SHIP_CENTER;
 
 
-        if(keysDown[K_LEFT] || newDx > 0)
+        if(keysDown[K_LEFT] || newDx > TILT_THRESHOLD)
         {
             tempShipImage = SHIP_LEFT;
 
@@ -592,7 +593,7 @@ function SpaceShip(scene, accel, j, thrustSound){
 
         }
 
-        if(keysDown[K_RIGHT] || newDx < 0){
+        if(keysDown[K_RIGHT] || newDx < -(TILT_THRESHOLD)){
 
             tempShipImage = SHIP_RIGHT;
 

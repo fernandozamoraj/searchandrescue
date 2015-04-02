@@ -1,12 +1,28 @@
 <!DOCTYPE HTML>
-<html lang="en-US" manifest="gameresouces.appcache">
+<html lang="en-US" manifest="gameresources.appcache">
 <!-- http://www.html5rocks.com/en/tutorials/appcache/beginner/   for info caching-->
+<!-- http://gregsramblings.com/2012/05/28/html5-application-cache-how-to/ for info caching-->
 <!--http://www.aharrisbooks.net/h5g/h5g_5/tplt.html-->
+<!-- http://manifest-validator.com/validate to validate your appcache file -->
 <!--*************************RESOURCES************************************->
 <!--  FREE SOUNDS:  http://rpg.hamsterrepublic.com/ohrrpgce/About        -->
 <!--     TEMPLATE:  http://www.aharrisbooks.net/h5g/h5g_5/tplt.html      -->
 <!--DOCUMENTATION:  http://www.aharrisbooks.net/h5g/documentation.html   -->
 <!--          LIB:  http://www.aharrisbooks.net/h5g/h5g_5/simpleGame.js  -->
+<!--
+
+Very important lesson about caching
+
+1. First I had to add the mime type to the web.config... I had to add a web config so that I could specify the mime type for cache manifest
+2. I then checked the mainfes file agains the validator http://manifest-validator.com/validate
+3. It was telling me that two files were invalid and to check the path... one file was the .m4a file and the other was an ogg file
+   both paths seemed correct. BUt I decided to simply remove those files from my game as a quick way to test this. That worked. I have to
+   find out why the ogg file was not being recognized. I have other ogg files and they work fine. SO we will see.  The m4a is the only file
+   of that type that I have. I need to investigate some more.
+   After making these changes my app seems to cache fine. I can reload it when offline.
+
+
+-->
 <head>
     <meta charset="UTF-8">
     <title>Operation Space Search and Rescue</title>
@@ -29,7 +45,7 @@
         //TODO: change fonts for start menu
         //TODO: integrate leader board
         //TODO: Fix the issue with controls on android
-        //TODO: fix screen sizing issues on phones
+        //TODO: fix screen sizing issues on phonesma
         //TODO: Change music for second level
         //
         //http://stackoverflow.com/questions/7773865/how-to-disable-web-page-zooming-scaling-on-android
@@ -60,10 +76,30 @@
         var MAX_WALLS = 15; //must be divisible by 3
         var VERTICAL_WALL_SPACING = 5;
         var LEVEL = 1;
+
+
+        //Image files
         var SHIP_CENTER = "./img/nasa_center.png";
         var SHIP_THRUSTING = "./img/nasa_center.png";
         var SHIP_LEFT = "./img/nasa_left.png";
         var SHIP_RIGHT = "./img/nasa_right.png";
+        var SMOKE_IMG = "./img/Smoke10.png";
+        var ASTRONAUT_IMG = "./img/astronaut.png";
+        var METEOR_01_IMG = "./img/meteor_b1.png";
+        var METEOR_02_IMG = "./img/meteor_b2.png";
+        var METEOR_03_IMG = "./img/meteor_b3.png";
+        var METEOR_04_IMG = "./img/meteor_b4.png";
+        var METEOR_05_IMG = "./img/meteor_b5.png";
+        var ORELIA_IMG = "./img/orelia.png";
+        var TRANSPARENT_IMG = "./img/image_transparent.png";
+        var NOTEPAD_IMG = "./img/notepad.png";
+
+        //sound files
+        var EXPLOSION_SOUND_FILE = "./sound/explosion_01.wav";
+        var BONUS_SOUND_FILE = "./sound/bonus_01.mp3";
+        var LANDED_SOUND_FILE = "./sound/bonus_02.wav";
+        var THRUST_SOUND_FILE = "./sound/thrust.wav";
+        var BACKGROUND_MUSIC_01 = "./sound/Kurevy_192001419_soundcloud.m4a";
 
 
         var accel;
@@ -140,7 +176,7 @@
             livesRescued=0;
             astronaut.reset();
             smoke.reset();
-            bgMusic.stop();
+            //bgMusic.stop();
         }
 
         function init(){
@@ -150,11 +186,11 @@
             scene = new Scene();
             scene.setBG(SCREEN_COLOR);
 
-            smoke = new ParticleEngine(scene, "./img/Smoke10.png", 50, 12);
+            smoke = new ParticleEngine(scene, SMOKE_IMG, 50, 12);
 
             //scene.setSize(800, 800);
             wallManager = new WallManager(scene);
-            astronaut = new BonusItem(scene, './img/astronaut.png');
+            astronaut = new BonusItem(scene, ASTRONAUT_IMG);
 
             if(scene.touchable){
                 accel = new Accel();
@@ -163,17 +199,17 @@
 
             theBackground =  new Background(scene);
 
-            explosionSound = new Sound("./sound/explosion_02.ogg");
-            bonusSound = new Sound("./sound/bonus_01.mp3");
-            landedSound = new Sound("./sound/bonus_02.wav");
-            thrustSound = new Sound("./sound/thrust.wav");
-            bgMusic = new Sound("./sound/Kurevy_192001419_soundcloud.m4a");
+            explosionSound = new Sound(EXPLOSION_SOUND_FILE);
+            bonusSound = new Sound(BONUS_SOUND_FILE);
+            landedSound = new Sound(LANDED_SOUND_FILE);
+            thrustSound = new Sound(THRUST_SOUND_FILE);
+            //bgMusic = new Sound(BACKGROUND_MUSIC_01);
             //explosionSound.showControls();
 
 
             getReadySplash = new GetReadySplash(scene, joy);
             theShip = new SpaceShip(scene, accel, joy, thrustSound);
-            orelia = new Planet(scene, "orelia.png");
+            orelia = new Planet(scene, ORELIA_IMG);
 
             levelTimer = new Timer();
             planetReachedTimer = new Timer();
@@ -204,7 +240,7 @@
 
 
             if(inPlay()){
-                bgMusic.play();
+                //bgMusic.play();
                 //explosionSound.showControls();
                 theShip.checkKeys();
                 wallManager.checkWallsForBounds();
@@ -246,7 +282,7 @@
                             theBackground.rattle();
                             smoke.launch(theShip.x, theShip.y, 5);
                             playCrashSound();
-                            bgMusic.stop();
+                           // bgMusic.stop();
                         });
                     }
 
