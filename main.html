@@ -47,6 +47,7 @@ Very important lesson about caching
         //TODO: Fix the issue with controls on android
         //TODO: fix screen sizing issues on phonesma
         //TODO: Change music for second level
+        //TODO: Add power up
         //
         //http://stackoverflow.com/questions/7773865/how-to-disable-web-page-zooming-scaling-on-android
         //to view a way to maintain and avoid zooming in
@@ -55,6 +56,8 @@ Very important lesson about caching
         var theBackground;
         var levelTimer;
         var getReadySplash;
+        var powerupShield;
+        var healthMeter;
 
         var explosionSound;
         var bonusSound;
@@ -94,6 +97,12 @@ Very important lesson about caching
         var TRANSPARENT_IMG = "./img/image_transparent.png";
         var BACKGROUND_IMG = "./img/bg_01.jpg";
         var NOTEPAD_IMG = "./img/notepad.png";
+        var POWERUP_SHIELD_IMG = "./img/powerup_shield.png";
+
+        var HEALTHMETER_1_IMG = "./img/healthmeter_1.png";
+        var HEALTHMETER_2_IMG = "./img/healthmeter_2.png";
+        var HEALTHMETER_3_IMG = "./img/healthmeter_3.png";
+
 
         //sound files
         var EXPLOSION_SOUND_FILE = "./sound/explosion_02.ogg";
@@ -187,7 +196,7 @@ Very important lesson about caching
             scene = new Scene();
             scene.setBG(SCREEN_COLOR);
 
-            smoke = new ParticleEngine(scene, SMOKE_IMG, 50, 12);
+            smoke = new ParticleEngine(scene, SMOKE_IMG, 50, 7);
 
             //scene.setSize(800, 800);
             wallManager = new WallManager(scene);
@@ -211,6 +220,8 @@ Very important lesson about caching
             getReadySplash = new GetReadySplash(scene, joy);
             theShip = new SpaceShip(scene, accel, joy, thrustSound);
             orelia = new Planet(scene, ORELIA_IMG);
+            powerupShield = new ShieldPowerup(scene);
+            healthMeter = new HealthMeter(scene);
 
             levelTimer = new Timer();
             planetReachedTimer = new Timer();
@@ -224,6 +235,8 @@ Very important lesson about caching
 
             wallManager.init(scene);
             smoke.init();
+            powerupShield.init();
+            healthMeter.init();
 
         } // end init
 
@@ -249,6 +262,7 @@ Very important lesson about caching
 
                 theShip.checkGravity();
                 astronaut.checkGravity();
+                powerupShield.checkGravity();
 
                 if(theShip.isPlaying() && inOreliasOrbit()){
 
@@ -265,6 +279,8 @@ Very important lesson about caching
 
                 }else{
 
+                    theShip.displayText();
+
                     if(theShip.isPlaying() && astronaut.hasBeenCollected() == false && theShip.collidesWith(astronaut)){
 
                         astronaut.collectIt();
@@ -274,6 +290,12 @@ Very important lesson about caching
 
 
                     }
+
+                    theShip.checkForPowerUp(powerupShield, function(){
+                        powerupShield.reset();
+                        bonusSound.play();
+                    });
+
                     if(theShip.isPlaying()){
                         wallManager.collidesWith(theShip, function(){
                             theShip.beginCrash();
@@ -294,6 +316,8 @@ Very important lesson about caching
                 }
 
 
+
+
                 //The ship does not die right away after it crashes
                 //instead it has to go through the process
                 if(theShip.isDead()){
@@ -307,6 +331,7 @@ Very important lesson about caching
                 //and update for updating position
                 //In this case update is for drawing to the screen
                 orelia.update();
+
                 if(astronaut.getSpeed() > 0){
                     astronaut.update();
                 }
@@ -314,6 +339,11 @@ Very important lesson about caching
                 theShip.update();
                 theShip.updateThruster();
                 smoke.update(theShip, 0, 0);
+                powerupShield.update();
+
+                healthMeter.updateImage(theShip.getLives());
+                healthMeter.update();
+                healthMeter.displayText();
                 updateScore();
 
             }
@@ -355,6 +385,10 @@ Very important lesson about caching
                 readyToSpawn = true;
             }
 
+            if(mileage > 200  && mileage < 300 && powerupShield.getSpeed() < 1){
+                powerupShield.spawn();
+
+            }
 
             if(mileage > 200 && mileage % 200 == 0 && readyToSpawn)
             {

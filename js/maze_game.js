@@ -190,6 +190,19 @@ function BonusItem(scene, imagePath){
     return sprite;
 }
 
+function ShieldPowerup(scene){
+
+    var bonusItem = new BonusItem(scene, POWERUP_SHIELD_IMG);
+
+    bonusItem.checkGravity = function(){
+        if(bonusItem.y >= this.cHeight){
+            bonusItem.reset();
+        }
+    };
+
+    return bonusItem;
+}
+
 
 /******************************************************************
 
@@ -423,6 +436,42 @@ function WallManager(scene){
     };
 }
 
+function HealthMeter(scene){
+
+    var sprite = new EnhancedSprite(scene, HEALTHMETER_1_IMG, 138, 23);
+    var previousLives = 1;
+
+    sprite.init = function(){
+        this.setPosition(80, 200);
+        this.setSpeed(0);
+    };
+
+    sprite.updateImage =  function(lives){
+        if(previousLives != lives){
+            previousLives = lives;
+            if(lives === 1){
+                this.setImage(HEALTHMETER_1_IMG);
+            }
+            else if(lives === 2){
+                this.setImage(HEALTHMETER_2_IMG);
+            }
+            else if(lives >= 3){
+                this.setImage(HEALTHMETER_3_IMG);
+            }
+            else{
+                this.setImage(HEALTHMETER_1_IMG);
+            }
+        }
+    };
+
+    sprite.displayText = function(){
+        this.writeText(FONT_FAMILY, FONT_SIZE, FONT_COLOR, "health", this.x - 68, this.y - 20);
+    }
+
+
+    return sprite;
+}
+
 /******************************************************************
 
  SpaceShip Class
@@ -448,15 +497,29 @@ function SpaceShip(scene, accel, j, thrustSound){
     var thrusterTimer = 0;
     var THRUSTER_WAIT_FRAMES = 10;
     var currentShipImage = SHIP_CENTER;
+    var lives = 1;
+    var text = "foo";
+    var lastCrashTimer = 0;
 
 
     crashSequenceTimer.start();
 
+    tempSpaceShip.getLives = function(){
+       return lives;
+    };
+
     tempSpaceShip.beginCrash = function(){
-        if(currentState == PLAYING_STATE){
+
+        if(lastCrashTimer >= 20){
+            lastCrashTimer = 0;
+            lives--;
+        }
+
+        if(currentState == PLAYING_STATE && lives < 1){
             this.addVector(0, 8);
             currentState = CRASHING_STATE;
             this.turnOffBoundsChecking();
+
             crashSequenceTimer.reset();
         }
     };
@@ -471,6 +534,7 @@ function SpaceShip(scene, accel, j, thrustSound){
 
     tempSpaceShip.init = function(){
 
+        lives = 2;
         currentState = PLAYING_STATE;
         this.setBoundAction(CONTINUE);
         this.setImgAngle(90);
@@ -532,10 +596,18 @@ function SpaceShip(scene, accel, j, thrustSound){
 
     tempSpaceShip.checkGravity = function(){
 
+        if(lastCrashTimer < 1000){
+            lastCrashTimer++;
+        }
+
         this.addVector(180,.3);
         if(currentState == CRASHING_STATE) {
+
             this.addVector(180, 1);
-            this.changeImgAngleBy(20);
+
+            if(lives < 1){
+                this.changeImgAngleBy(20);
+            }
 
             if(crashSequenceTimer.getElapsedTime() > 4){
                 currentState = DEAD_STATE;
@@ -543,8 +615,21 @@ function SpaceShip(scene, accel, j, thrustSound){
         }
     };
 
+    tempSpaceShip.checkForPowerUp = function(powerupSprite, callback){
+        if(powerupSprite.collidesWith(tempSpaceShip)){
+            callback();
+            lives++;
+            text = "lives: " + lives.toString();
+        }
+    };
+
     tempSpaceShip.updateThruster = function(){
       thrusterSmoke.update(this, 0, this.height/2);
+    };
+
+    tempSpaceShip.displayText = function(){
+        text = "lives: " + lives.toString();
+        tempSpaceShip.writeText(FONT_FAMILY, FONT_SIZE, FONT_COLOR, text, this.x - 25, this.y - 35);
     };
 
     tempSpaceShip.checkKeys = function(){
@@ -609,10 +694,7 @@ function SpaceShip(scene, accel, j, thrustSound){
 
             tempShipImage = SHIP_RIGHT;
 
-            if(newDx < 0)
-                this.addVector(90,1);
-            else
-                this.addVector(90,1);
+            this.addVector(90,1);
         }
 
         //set a max DX

@@ -201,12 +201,14 @@
 
 
 
-            this.update = function(trailingSprite, distX, distY){
+            this.update = function(trailingSprite, offsetX, offsetY){
                 var i = 0;
 
+                //spawn a particle every two x frames (2 in this case)
+                //particles spaw near the trailingSprite... e.g.the ship for example plus the offset
                 if(spawnTimer === 2 && currentParticle < particleCount){
                     currentParticle++;
-                    particles[currentParticle].setPosition(trailingSprite.x+distX, trailingSprite.y+distY);
+                    particles[currentParticle].setPosition(trailingSprite.x+offsetX, trailingSprite.y+offsetY);
 
                     if(moveAngle > -1){
                         particles[currentParticle].setMoveAngle(moveAngle);
