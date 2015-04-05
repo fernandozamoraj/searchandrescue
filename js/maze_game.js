@@ -79,7 +79,7 @@ function GetReadySplash(scene, virtualJoystick){
  ******************************************************************/
 function Background(scene){
 
-    var sprite = new EnhancedSprite(scene, TRANSPARENT_IMG, 800, 600);
+    var sprite = new EnhancedSprite(scene, BACKGROUND_IMG, 800, 600);
 
     sprite.init = function(){
         this.setX(this.cWidth/2 );
@@ -200,10 +200,12 @@ function BonusItem(scene, imagePath){
 function Wall(scene){
 
 
-    var wallNames = [METEOR_01_IMG, METEOR_02_IMG, METEOR_03_IMG, METEOR_04_IMG, METEOR_05_IMG];
+    var wallNames = [METEOR_02_IMG, METEOR_02_IMG, METEOR_03_IMG, METEOR_04_IMG, METEOR_05_IMG];
     var imageIndex = Math.floor(Math.random()*5);
-    var widths = [170, 170, 80, 80, 50];
+    var widths = [100, 92, 80, 70, 54];
     var tempWall = new EnhancedSprite(scene, wallNames[imageIndex], widths[imageIndex], WALL_HEIGHT);
+    var angles = [-12,-8,-4,4,8,12];
+    var _angle = angles[Math.floor(Math.random()*5)];
 
     tempWall.getWallHeight = function(){
         return WALL_HEIGHT;
@@ -224,7 +226,16 @@ function Wall(scene){
         this.setSpeed(3);
         this.setMoveAngle(180);
         this.setImgAngle(90);
-        this.changeImgAngleBy(Math.floor(Math.random()*50)-25);
+        //this.changeImgAngleBy(Math.floor(Math.random()*50)-25);
+    };
+
+    tempWall.myUpdate = tempWall.update;
+
+    tempWall.update = function(){
+
+
+        tempWall.changeImgAngleBy(_angle);
+        tempWall.myUpdate();
     };
 
     tempWall.tooCloseToOtherWall = function(sprite){
@@ -274,7 +285,7 @@ function Wall(scene){
             this.setX( xPosition );
             this.setY(-600);
             this.setImgAngle(90);
-            this.changeImgAngleBy(Math.floor(Math.random()*30)-15);
+            //this.changeImgAngleBy(Math.floor(Math.random()*30)-15);
         }
     };
 
@@ -421,7 +432,7 @@ function SpaceShip(scene, accel, j, thrustSound){
 
     var accelerometer = accel;
     var joystickVirtual = j;
-    var tempSpaceShip = new EnhancedSprite(scene, SHIP_CENTER, 70, 60);
+    var tempSpaceShip = new EnhancedSprite(scene, SHIP_CENTER, 45, 50);
     var thrusterSmoke = new ParticleEngine(scene, SMOKE_IMG, 10, 5);
     var START_Y_POSITON  = 500;
     var MIN_SPEED = 1;

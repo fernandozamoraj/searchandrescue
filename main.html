@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en-US" manifest="gameresources.appcache">
+<html lang="en-US">
 <!-- http://www.html5rocks.com/en/tutorials/appcache/beginner/   for info caching-->
 <!-- http://gregsramblings.com/2012/05/28/html5-application-cache-how-to/ for info caching-->
 <!--http://www.aharrisbooks.net/h5g/h5g_5/tplt.html-->
@@ -72,7 +72,7 @@ Very important lesson about caching
         var NORMAL_COLOR = "#DDDDDD";
         var HIGHLIGHT_COLOR = "#DDEEEE";
         var FONT_COLOR = NORMAL_COLOR;
-        var SCREEN_COLOR = "#334455";
+        var SCREEN_COLOR = "#333333";
         var MAX_WALLS = 15; //must be divisible by 3
         var VERTICAL_WALL_SPACING = 5;
         var LEVEL = 1;
@@ -80,7 +80,7 @@ Very important lesson about caching
 
         //Image files
         var SHIP_CENTER = "./img/nasa_center.png";
-        var SHIP_THRUSTING = "./img/nasa_center.png";
+        var SHIP_THRUSTING = "./img/nasa_thrusting.png";
         var SHIP_LEFT = "./img/nasa_left.png";
         var SHIP_RIGHT = "./img/nasa_right.png";
         var SMOKE_IMG = "./img/Smoke10.png";
@@ -90,8 +90,9 @@ Very important lesson about caching
         var METEOR_03_IMG = "./img/meteor_b3.png";
         var METEOR_04_IMG = "./img/meteor_b4.png";
         var METEOR_05_IMG = "./img/meteor_b5.png";
-        var ORELIA_IMG = "./img/orelia.png";
+        var ORELIA_IMG = "./img/earth.png";
         var TRANSPARENT_IMG = "./img/image_transparent.png";
+        var BACKGROUND_IMG = "./img/bg_01.jpg";
         var NOTEPAD_IMG = "./img/notepad.png";
 
         //sound files
@@ -262,7 +263,6 @@ Very important lesson about caching
                         resetLevel(false);
                     }
 
-                    0
                 }else{
 
                     if(theShip.isPlaying() && astronaut.hasBeenCollected() == false && theShip.collidesWith(astronaut)){
