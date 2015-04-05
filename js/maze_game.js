@@ -678,6 +678,10 @@ function SpaceShip(scene, accel, j, thrustSound){
 
         var addedGravityOnMobile = Math.abs( newDx ) * 2;
 
+        if(addedGravityOnMobile > 50){
+            addedGravityOnMobile = 50;
+        }
+
         if(keysDown[K_LEFT] || newDx > TILT_THRESHOLD)
         {
             tempShipImage = SHIP_LEFT;
