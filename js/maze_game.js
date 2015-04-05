@@ -285,6 +285,7 @@ function Wall(scene){
             this.setX( xPosition );
             this.setY(-600);
             this.setImgAngle(90);
+            this.setSpeed(Math.floor(Math.random()*7+2));
             //this.changeImgAngleBy(Math.floor(Math.random()*30)-15);
         }
     };
