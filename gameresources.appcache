@@ -5,6 +5,11 @@ NETWORK:
 
 
 CACHE:
+
+img/healthmeter_1.png
+img/healthmeter_2.png
+img/healthmeter_3.png
+
 main.html
 sound/explosion_01.wav
 sound/explosion_02.ogg
@@ -33,9 +38,7 @@ img/image_transparent.png
 img/notepad.png
 img/powerup_shield.png
 
-img/healthmeter_1.png
-img/healthmeter_2.png
-img/healthmeter_3.png
+
 
 
 
