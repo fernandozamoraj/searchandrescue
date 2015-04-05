@@ -676,25 +676,20 @@ function SpaceShip(scene, accel, j, thrustSound){
         tempShipImage = SHIP_CENTER;
 
 
+        var addedGravityOnMobile = newDx * .5;
+
         if(keysDown[K_LEFT] || newDx > TILT_THRESHOLD)
         {
             tempShipImage = SHIP_LEFT;
-
-            if(newDx > 0){
-                //need faster acceleration when using tilt as pposed to keys
-                this.addVector(270,1)
-            }
-            else{
-                this.addVector(270,1);
-            }
-
+            this.addVector(270,1+addedGravityOnMobile);
         }
+
 
         if(keysDown[K_RIGHT] || newDx < -(TILT_THRESHOLD)){
 
             tempShipImage = SHIP_RIGHT;
 
-            this.addVector(90,1);
+            this.addVector(90,1 + addedGravityOnMobile);
         }
 
         //set a max DX
