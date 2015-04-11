@@ -8,5 +8,7 @@
       "scripts": ["background.js"]
     }
   },
-  "icons": { "16": "search-and-rescue-16.png", "128": "search-and-rescue-128.png" }
+  "icons": { "16": "search-and-rescue-16.png", "128": "search-and-rescue-128.png" },
+  "author:":"Fernando Zamora",
+  "short_name": "Search and Rescue"
 }
