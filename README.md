@@ -1,5 +1,6 @@
 # searchandrescue
 To play this game go to [http://searchandrescue.apphb.com/main.html]
+
 Search and Rescue is an original game that I created using JavaScript.  The entire game is written with Java script.  It uses the simpleGame.js engine as a framework for the game.
 
 The game itself is pretty elementary but it does demonstrate some cool concepts such as
